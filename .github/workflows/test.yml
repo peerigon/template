@@ -1,0 +1,52 @@
+name: 🧪 Test
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  test-and-release:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # pin@main
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@802632921f8532d2409ae6eac3313b6f81f11122 # pin@main
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: 🗄 Cache node_modules
+        id: cache-node_modules
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # pin@main
+        with:
+          path: "**/node_modules"
+          key: node_modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: 🗄 Cache .eslintcache
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # pin@main
+        with:
+          path: .eslintcache
+          key: eslintcache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: 🔍 Install dependencies
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: |
+          npm ci --ignore-scripts --prefer-offline --no-audit
+
+      - name: 🧪 Run tests
+        run: |
+          npm test
+        env:
+          CI: true
