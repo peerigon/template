@@ -21,7 +21,7 @@
     "@peerigon/configs": "^4.0.1",
     "eslint": "^9.22.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "npm-run-all2": "^7.0.2",
     "pin-github-action": "^2.1.1",
     "prettier": "^3.5.3",
