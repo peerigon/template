@@ -18,15 +18,15 @@
     "@types/node": "^22.13.10"
   },
   "devDependencies": {
-    "@peerigon/configs": "^4.0.1",
-    "eslint": "^9.22.0",
+    "@peerigon/configs": "^6.4.0",
+    "eslint": "^9.28.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "npm-run-all2": "^7.0.2",
     "pin-github-action": "^2.1.1",
     "prettier": "^3.5.3",
-    "semantic-release": "^24.2.3",
-    "typescript": "^5.8.2",
+    "semantic-release": "^24.2.5",
+    "typescript": "^5.8.3",
     "vitest": "^3.0.8"
   }
 }
