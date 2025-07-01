@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # pin@main
+        uses: actions/checkout@09d2acae674a48949e3602304ab46fd20ae0c42f # pin@main
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@802632921f8532d2409ae6eac3313b6f81f11122 # pin@main
