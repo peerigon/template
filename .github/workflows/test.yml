@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5 # main
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # main
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@b9b25d45f70a5d94d88496aa4896bf9ed8f49b67 # main
