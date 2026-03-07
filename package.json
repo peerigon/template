@@ -22,7 +22,7 @@
     "@peerigon/configs": "^14.4.0",
     "@types/node": "^25.3.5",
     "@vitest/coverage-v8": "^4.0.18",
-    "eslint": "9.39.2",
+    "eslint": "10.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.3.2",
     "npm-run-all2": "^8.0.4",
