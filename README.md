@@ -64,6 +64,7 @@ Update the following fields:
 - Update "Project Structure" section if the actual project structure differs
 - Update "Code Organization" section with project-specific patterns
 - Keep the development commands and MCP tool instructions as-is
+- Keep the "Upstream configuration" and "Pulling Updates from Upstream" sections as-is (they prevent accidental pushes to the public template)
 
 ### 5. Example Source Files
 
@@ -76,6 +77,7 @@ The `src/` directory contains example files (`add.ts`, `add.test.ts`, `main.ts`)
 ## Additional Considerations
 
 - Check if `package-lock.json` should be regenerated after package.json changes
+- Confirm `git remote -v` shows `upstream` with push URL `DISABLED`, otherwise run `git remote set-url --push upstream DISABLED`
 - Verify all tests still pass after changes: `npm test`
 ```
 
@@ -110,13 +112,15 @@ Before starting the merge, collect information about the existing project:
 
 ## Phase 2: Execute Git Merge
 
-Run the merge command to bring in template changes:
+Add the template as `upstream` and **disable pushes** to it (so you never send your project’s commits to the public template). If `upstream` already exists, only run the `set-url --push` line.
 
 ```bash
 git remote add upstream https://github.com/peerigon/template.git
+git remote set-url --push upstream DISABLED
 git fetch upstream
 git merge --allow-unrelated-histories --strategy-option theirs --no-commit upstream/main
 ```
+````
 
 This will:
 
@@ -162,13 +166,19 @@ Decide on treatment of `src/` directory:
 2. Run `npm test` to verify all changes work
 3. Review `git status` and `git diff --staged` for any unexpected changes
 4. Clean up any unwanted template artifacts
+5. Confirm `git remote -v` shows `upstream` with push URL `DISABLED`
 
 ## Phase 6: Staging
 
 **IMPORTANT**: Stage your changes, but **do not** commit any changes. Ask the user to review the changes.
+
 ````
 
 </details>
+
+## GitHub rulesets (blueprints)
+
+The JSON files under [`.github/rulesets/`](./.github/rulesets/) are **blueprints** for GitHub rulesets. GitHub does not apply them from the repository; import or recreate them in your repo’s (or organization’s) ruleset settings. See [`.github/rulesets/README.md`](./.github/rulesets/README.md) for details.
 
 ## How to pull in updates from the upstream repository
 
@@ -177,3 +187,4 @@ Ask your AI coding assistant:
 ```prompt
 Merge the "upstream" remote into the current branch as described in the AGENTS.md file.
 ```
+````

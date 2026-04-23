@@ -44,9 +44,19 @@ This project uses npm scripts for all development tasks:
 - Uses ES module syntax throughout (`.ts` extensions in imports)
 - **Environment variables**: Use `src/env.ts`; destructure at top-level module scope so missing vars fail immediately.
 
+## Upstream configuration
+
+Configure the `upstream` remote so it can **only be fetched**, never pushed to:
+
+```bash
+git remote set-url --push upstream DISABLED
+```
+
+Verify with `git remote -v`: `upstream` should show a normal fetch URL and `DISABLED` (or empty) for push.
+
 ## Pulling Updates from Upstream
 
-If user is asking you to pull in updates from the upstream repository, you can do so by following these steps:
+If the user is asking you to pull in updates from the upstream repository, follow the steps below.
 
 ### Step 1: Merge Template Updates
 
