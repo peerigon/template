@@ -57,11 +57,10 @@ jobs:
         run: |
           npm test
 
-  zizmor:
-    name: 🌈 zizmor
+  lint-github-action:
+    name: 🔍 Lint Github Action
     runs-on: ubuntu-latest
     permissions:
-      actions: read
       contents: read
 
     steps:
