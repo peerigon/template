@@ -17,7 +17,7 @@ on:
 permissions: {}
 
 jobs:
-  zizmor:
+  lint-github-actions:
     name: 🌈 zizmor
     runs-on: ubuntu-latest
     permissions:
