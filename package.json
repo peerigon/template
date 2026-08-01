@@ -22,7 +22,7 @@
     "@djankies/vitest-mcp": "0.5.1",
     "@eslint/mcp": "0.3.9",
     "@peerigon/configs": "^21.2.0",
-    "@secretlint/secretlint-rule-preset-recommend": "^13.0.2",
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
     "@types/node": "^26.1.1",
     "@vitest/coverage-v8": "^4.1.9",
     "eslint": "^9.39.2",
