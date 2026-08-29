@@ -78,6 +78,7 @@ The `src/` directory contains example files (`add.ts`, `add.test.ts`, `main.ts`)
 
 - Check if `package-lock.json` should be regenerated after package.json changes
 - Confirm `git remote -v` shows `template` with push URL `DISABLED`, otherwise run `git remote set-url --push template DISABLED`
+- Run `gh repo set-default <owner>/<repo>` (the new repo, not `peerigon/template`) so `gh pr create` and other `gh` commands target the right repository — see "Opening pull requests" in AGENTS.md
 - Verify all tests still pass after changes: `npm test`
 ```
 
@@ -166,6 +167,7 @@ Decide on treatment of `src/` directory:
 3. Review `git status` and `git diff --staged` for any unexpected changes
 4. Clean up any unwanted template artifacts
 5. Confirm `git remote -v` shows `template` with push URL `DISABLED`
+6. Run `gh repo set-default <owner>/<repo>` (the existing project's repo, not `peerigon/template`) so `gh pr create` and other `gh` commands target the right repository — see "Opening pull requests" in AGENTS.md
 
 ## Phase 6: Staging
 
