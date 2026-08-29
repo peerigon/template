@@ -16,9 +16,6 @@
       "type": "non_fast_forward"
     },
     {
-      "type": "required_linear_history"
-    },
-    {
       "type": "required_signatures"
     },
     {
@@ -27,7 +24,7 @@
         "required_approving_review_count": 0,
         "dismiss_stale_reviews_on_push": true,
         "require_code_owner_review": false,
-        "allowed_merge_methods": ["squash"]
+        "allowed_merge_methods": ["squash", "merge"]
       }
     },
     {
