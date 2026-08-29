@@ -60,9 +60,9 @@ Verify with `git remote -v`: `template` should show a normal fetch URL and `DISA
 
 ## Opening pull requests
 
-Projects generated from this template are **GitHub forks** of `peerigon/template`, so both the web UI's compare page and a fresh `gh` checkout default a new pull request's base to the **upstream** repo (`peerigon/template`). A PR opened that way targets the template, and checks that depend on the fork's repo (CODEOWNERS, rulesets) then fail against the wrong repository.
+Projects generated from this template usually have a `template` git remote pointing at `peerigon/template` (see "Template as a git remote" above) — whether the project is a literal **GitHub fork** (Option A) or an existing repo that merged the template in (Option B). Either way, `gh` sees a remote pointing at `peerigon/template` and both the web UI's compare page and a fresh `gh` checkout default a new pull request's base to that **upstream** repo. A PR opened that way targets the template, and checks that depend on the project's own repo (CODEOWNERS, rulesets) then fail against the wrong repository.
 
-Run this once per clone of the forked repo:
+Run this once per clone of the project's repo:
 
 ```bash
 gh repo set-default <owner>/<repo>
