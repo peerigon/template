@@ -214,7 +214,7 @@ First, read this project's actual `docker-compose.yml` and gather:
    real network access - wire its env vars into the overlay too.
 6. **What the main service's container image can run** - the isolation
    check pipes a Node script into the container via `docker compose exec
-   ... node --input-type=module -`. If the image isn't Node-based, adapt
+... node --input-type=module -`. If the image isn't Node-based, adapt
    `scripts/verify-pentest-network-isolation.sh` and
    `scripts/network-isolation-check.mjs` to use what it does have
    (python3, curl, ...).

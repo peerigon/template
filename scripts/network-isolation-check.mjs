@@ -8,8 +8,8 @@
 
 const targets = [
   // Generic control hosts - always keep at least one of these.
-  'https://1.1.1.1',
-  'https://example.com'
+  "https://1.1.1.1",
+  "https://example.com",
 
   // Add your project's real third-party API hosts here, e.g.:
   // 'https://api.brevo.com',
@@ -18,24 +18,48 @@ const targets = [
 
 const TIMEOUT_MS = 4000;
 
-let reachable = 0;
-let blocked = 0;
+/** @param {unknown} error */
+function describeError(error) {
+  if (error instanceof Error) {
+    const cause = error.cause;
 
-for (const url of targets) {
+    if (cause && typeof cause === "object" && "code" in cause) {
+      return String(cause.code);
+    }
+    if ("code" in error && typeof error.code === "string") {
+      return error.code;
+    }
+
+    return error.name;
+  }
+
+  return String(error);
+}
+
+/** @param {string} url */
+async function probe(url) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, TIMEOUT_MS);
+
   try {
     await fetch(url, { signal: controller.signal });
     console.log(`REACHABLE ${url}`);
-    reachable++;
+    return true;
   } catch (error) {
-    const reason = error?.cause?.code ?? error?.code ?? error?.name ?? String(error);
-    console.log(`BLOCKED ${url} (${reason})`);
-    blocked++;
+    console.log(`BLOCKED ${url} (${describeError(error)})`);
+    return false;
   } finally {
     clearTimeout(timer);
   }
 }
 
-console.log(`\nsummary: ${blocked}/${targets.length} blocked, ${reachable}/${targets.length} reachable`);
-process.exit(reachable > 0 ? 1 : 0);
+const results = await Promise.all(targets.map((url) => probe(url)));
+const reachableCount = results.filter(Boolean).length;
+const blockedCount = results.length - reachableCount;
+
+console.log(
+  `\nsummary: ${String(blockedCount)}/${String(targets.length)} blocked, ${String(reachableCount)}/${String(targets.length)} reachable`,
+);
+process.exit(reachableCount > 0 ? 1 : 0);
