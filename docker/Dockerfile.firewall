@@ -1,0 +1,7 @@
+# Tiny image for the pentest-only egress-firewall sidecar (see
+# docker-compose.pentest.yml). Not part of the normal app build.
+FROM alpine:3.20
+RUN apk add --no-cache iptables
+COPY apply-firewall.sh /usr/local/bin/apply-firewall.sh
+RUN chmod +x /usr/local/bin/apply-firewall.sh
+ENTRYPOINT ["/usr/local/bin/apply-firewall.sh"]

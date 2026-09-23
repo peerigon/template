@@ -184,6 +184,72 @@ Ask your AI coding assistant:
 Merge the "template" remote into the current branch as described in the AGENTS.md file.
 ```
 
+## Optional: Security / Pentest Sandbox Setup
+
+Only relevant once your project has a `docker-compose.yml` with a running app service - skip this section until then.
+
+This template ships a pentest sandbox: a docker-compose overlay that runs your app with internet egress genuinely blocked (via a firewall sidecar, not just app config), so a dynamic AI pentest (e.g. [Strix](https://strix.ai)) or anything else run against it can't accidentally hit real third-party services (email/SMS/push providers, payment providers, ...). See [peerigon/IT#335](https://github.com/peerigon/IT/issues/335) for the background and process this is part of.
+
+Files: `docker-compose.pentest.yml`, `docker/apply-firewall.sh`, `docker/Dockerfile.firewall`, `scripts/run-pentest.sh`, `scripts/verify-pentest-network-isolation.sh`, `scripts/network-isolation-check.mjs`.
+
+<details>
+
+```markdown
+# Customize Pentest Sandbox Setup
+
+First, read this project's actual `docker-compose.yml` and gather:
+
+1. **Main app/API service name** - the one thing a pentest tool should
+   test (e.g. `server`, `api`, `backend`).
+2. **Its container port** and a **free host port** to publish it on for
+   this sandbox (must not collide with the normal dev stack).
+3. **A cheap, unauthenticated health-check path** that only returns 2xx
+   once the app (and its DB connection) is actually ready.
+4. **Every other service** in docker-compose.yml that publishes a fixed
+   host port (db, cache, auth provider, mail catcher, ...) - these need
+   their ports dropped in the overlay so this sandbox can run alongside
+   the normal dev stack without port conflicts.
+5. **Any third-party integration** (email, push, payments, ...) that
+   needs a local stand-in (e.g. a mail catcher) to keep working without
+   real network access - wire its env vars into the overlay too.
+6. **What the main service's container image can run** - the isolation
+   check pipes a Node script into the container via `docker compose exec
+   ... node --input-type=module -`. If the image isn't Node-based, adapt
+   `scripts/verify-pentest-network-isolation.sh` and
+   `scripts/network-isolation-check.mjs` to use what it does have
+   (python3, curl, ...).
+
+## Files to Update
+
+### docker-compose.pentest.yml
+
+- Replace every `server` placeholder with the real service name from (1).
+- Set the port mapping from (2).
+- Add a `<service>: ports: !override []` block for each service from (4).
+- Add env vars / local stand-ins from (5).
+
+### scripts/run-pentest.sh
+
+- Set `PENTEST_SERVICE`, `PENTEST_HOST_PORT`, `PENTEST_HEALTH_PATH` to
+  match what you configured above (or leave them as env var overrides for
+  whoever runs it, whichever you prefer).
+
+### scripts/network-isolation-check.mjs
+
+- Add the real third-party API hosts your app talks to, so the check
+  actually proves those specific integrations can't leak.
+
+## After Customizing
+
+Run `./scripts/run-pentest.sh` (needs Docker + a Strix installation - see
+[docs.strix.ai](https://docs.strix.ai) - and either `STRIX_LLM`/
+`LLM_API_KEY` env vars or a prior `strix auth` sign-in). It brings up the
+sandbox, proves egress is blocked, and only then starts Strix against it;
+tears the stack down again on exit either way.
+```
+
+</details>
+
 ## GitHub rulesets (blueprints)
 
 The JSON files under [`.github/rulesets/`](./.github/rulesets/) are **blueprints** for GitHub rulesets. GitHub does not apply them from the repository; import or recreate them in your repo’s (or organization’s) ruleset settings. See [`.github/rulesets/README.md`](./.github/rulesets/README.md) for details.
