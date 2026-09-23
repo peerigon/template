@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     permissions:
-      actions: write
       contents: read
 
     concurrency:
@@ -28,6 +27,30 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      # Runs in the background while dependencies are installed.
+      # Uses the runner's preinstalled Node.js to read the secretlint version.
+      - name: 🔍 Lint secrets
+        id: lint-secrets
+        background: true
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          secretlint_version="$(node -p "require('./package.json').devDependencies.secretlint")"
+          secretlint_version="${secretlint_version#^}"
+          secretlint_version="${secretlint_version#~}"
+          secretlint_version="${secretlint_version#v}"
+
+          docker run --rm --network none \
+            -v "${PWD}:${PWD}" -w "${PWD}" \
+            "secretlint/secretlint:v${secretlint_version}" \
+            secretlint --format github "**/*"
+
+      - name: 🌈 Lint GitHub Actions
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        with:
+          advanced-security: false
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -67,3 +90,7 @@ jobs:
           CI: true
         run: |
           npm test
+
+      # Background step failures are only reported at a wait step
+      - name: ⏳ Wait for secret lint
+        wait: [lint-secrets]
