@@ -28,7 +28,7 @@ jobs:
         with:
           persist-credentials: false
 
-      # Runs in the background while dependencies are installed.
+      # Linters run in the background while dependencies are installed.
       # Uses the runner's preinstalled Node.js to read the secretlint version.
       - name: 🔍 Lint secrets
         id: lint-secrets
@@ -48,6 +48,8 @@ jobs:
             secretlint --format github "**/*"
 
       - name: 🌈 Lint GitHub Actions
+        id: lint-github-actions
+        background: true
         uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
         with:
           advanced-security: false
@@ -92,5 +94,5 @@ jobs:
           npm test
 
       # Background step failures are only reported at a wait step
-      - name: ⏳ Wait for secret lint
-        wait: [lint-secrets]
+      - name: ⏳ Wait for linters
+        wait: [lint-secrets, lint-github-actions]
