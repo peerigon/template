@@ -23,7 +23,7 @@
     "@eslint/mcp": "0.3.12",
     "@peerigon/configs": "^24.0.0",
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
-    "@types/node": "^26.3.0",
+    "@types/node": "^26.6.2",
     "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.10.0",
     "husky": "^9.1.7",
