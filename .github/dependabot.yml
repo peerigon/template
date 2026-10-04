@@ -17,6 +17,10 @@ updates:
           - "oxfmt"
           - "semantic-release"
           - "typescript"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
     cooldown:
       default-days: 7
 
