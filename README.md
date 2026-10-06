@@ -8,7 +8,7 @@
 
 #### Step 1:
 
-Fork this repository. This way the new repository will reference this repository as `template` and you will be able to easily pull in updates from this repository.
+Fork this repository. This way the new repository will reference this repository as `template` and you will be able to easily pull in updates from this repository. The checkout hook matches `origin`'s HTTPS/SSH protocol and preserves existing `template` URLs.
 
 #### Step 2:
 
@@ -113,7 +113,7 @@ Before starting the merge, collect information about the existing project:
 
 ## Phase 2: Execute Git Merge
 
-Add the template as `template` and **disable pushes** to it (so you never send your project’s commits to the public template). If `template` already exists, only run the `set-url --push` line.
+Add the template as `template` and **disable pushes** to it (so you never send your project’s commits to the public template). If `template` already exists, only run the `set-url --push` line. For SSH, use `git@github.com:peerigon/template.git` instead.
 
 ```bash
 git remote add template https://github.com/peerigon/template.git
