@@ -17,13 +17,9 @@
       "mcp__typescript-lsp__getDiagnostics",
       "mcp__typescript-lsp__traceType",
       "mcp__typescript-lsp__runTypeTests",
-      "mcp__typescript-lsp__checkInlineCode",
-      "mcp__vitest-server__set_project_root",
-      "mcp__vitest-server__list_tests",
-      "mcp__vitest-server__run_tests",
-      "mcp__vitest-server__analyze_coverage"
+      "mcp__typescript-lsp__checkInlineCode"
     ],
     "deny": []
   },
-  "enabledMcpjsonServers": ["vitest-server", "typescript-lsp", "eslint"]
+  "enabledMcpjsonServers": ["typescript-lsp", "eslint"]
 }
