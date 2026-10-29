@@ -28,7 +28,7 @@ This project uses npm scripts for all development tasks:
 - **Format check**: `npm run test:format` - Oxfmt format validation
 
 **Important**: Use the typescript-lsp MCP (`getDiagnostics`, `getTypeAtPosition`, `getDefinition`, etc.) for type information
-**Important**: Use the vitest-server MCP to run individual tests.
+**Important**: Run individual tests with `npx vitest --run <file>` (a path or a name filter), never the whole suite while iterating.
 **Important**: Use the eslint MCP to check for linting errors.
 
 ## Project Structure
