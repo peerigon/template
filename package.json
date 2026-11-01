@@ -37,10 +37,15 @@
     "typescript": "^6.0.3",
     "vitest": "^5.0.5"
   },
+  "overrides": {
+    "ts-lsp-mcp": {
+      "glob": "^13.0.6"
+    }
+  },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "24.18.0",
+      "version": "26.13.0",
       "onFail": "error"
     }
   }
